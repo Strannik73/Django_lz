@@ -1,0 +1,79 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Песни</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="header">
+        <div class="left">
+            <a href="{% url 'create_song' %}">
+                <button>Добавить песню</button>
+            </a>
+        </div>
+        <div class="right">
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Выйти</button>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Список песен</h1>
+        <div class="songs">
+            {% for song in songs %}
+                <div class="song-card">
+
+                    <a href="{% url 'song_detail' song.song_id %}" class="card-link">
+                        <div class="cover">
+                            {% if song.song_cover %}
+                                <img src="{% url 'song_cover' song.song_id %}" alt="cover">
+                            {% else %}
+                                <div class="no-cover">No image</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="info">
+                            <h2>{{ song.song_name }}</h2>
+
+                            <p><b>Исполнитель:</b> {{ song.song_artist }}</p>
+                            <p><b>Жанр:</b> {{ song.song_genre }}</p>
+                            <p><b>Год:</b> {{ song.creation_date.year }}</p>
+
+                            <p><b>Рейтинг:</b> {{ song.avg_rating|default:"0" }}/10</p>
+                            <p><b>Голосов:</b> {{ song.votes_count }}</p>
+
+                            {% if song.my_rating %}
+                                <div class="user-rating">
+                                    <b>Твоя оценка:</b> {{ song.my_rating }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </a>
+
+                    <div class="rating-block">
+                        {% if not song.my_rating %}
+                            <form method="post" action="{% url 'rate_song' song.song_id %}">
+                                {% csrf_token %}
+                                <select name="rating">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <button type="submit">Оценить</button>
+                            </form>
+                        {% endif %}
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

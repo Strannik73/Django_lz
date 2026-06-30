@@ -1,17 +1,21 @@
 from django.urls import path
-from kernel_app.views import (
-    main_page, login, register, logout_view, page404, 
-    news, create_article, one_news
+
+from app.views import (
+    create_song,
+    rate_song,
+    register,
+    song_cover,
+    song_details,
+    songs,
+    to_login,
 )
 
 urlpatterns = [
-    path('', main_page, name='home'),
-    path('login/', login, name='login'),
-    path('register/', register, name='register'),
-    path('logout/', logout_view, name='logout'),
-    path('home/', main_page, name='main'),
-    path('404/', page404, name='404'),
-    path('news/', news, name='news'),
-    path('new/', create_article, name='create_article'),
-    path('news/<str:article_id>/', one_news, name='one_news'),
+    path("", to_login),
+    path("song/<int:song_id>/", song_details, name="song_detail"),
+    path("songs/", songs, name="songs"),
+    path("cover/<int:song_id>/", song_cover, name="song_cover"),
+    path("register/", register, name="register"),
+    path("rate/<int:song_id>/", rate_song, name="rate_song"),
+    path("create/", create_song, name="create_song"),
 ]

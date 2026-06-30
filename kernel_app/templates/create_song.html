@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить песню</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="auth-container">
+        <h1>Новая песня</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>Название песни<br>{{ form.song_name }}</p>
+            <p>Текст песни<br>{{ form.song_lyrics }}</p>
+            <p>Исполнитель<br>{{ form.song_artist }}</p>
+            <p>Жанр<br>{{ form.song_genre }}</p>
+            <p>Обложка<br>{{ form.song_cover }}</p>
+            <button type="submit">Сохранить</button>
+        </form>
+    </div>
+</body>
+</html>

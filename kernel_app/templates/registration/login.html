@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="auth-container">
+        <h1>Вход</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit">Войти</button>
+        </form>
+
+        <a class="auth-link" href="/register/">Нет аккаунта? Регистрация</a>
+    </div>
+</body>
+</html>
